@@ -11,11 +11,11 @@ NgModule is a class with *@NgModule* decorator
 **Note:** A *decorator* is a way of wrapping a piece of code with another. Literally, decorating one code with another. This is something called "Functional Composition or Higher order functions". This something that is available in Typescript and can be implemented in js also ( Not a standard yet). In js they are prefixed by **@**. Decorators can be used to modify js classes. Angular uses decorators to attach meta data to classes that describes how classes work.
 
 **NgModule** A decorator function which attaches a single  metadata object which describes the properties of the module. Some of the properties are:
-	1. **Declarations** - View classes. Three kinds of view classes: *Components*, *Directives*, and *Pipes*.
-	2. **Exports** - This is a subset of declarations. These are components that need to be exported to other components and can be used in those modules.
-	3. **Imports** - This is the way how exported classed can be used in the current class.
-	4. **Providers** - Services can be created by these in a certain module. These are also available to the global collection of services and therefore are available at all parts of the app.
-	5. **Bootstrap** - This is the main application view called the root component and this hosts all the other views of the app. This property should only be set by the root module.
+1. **Declarations** - View classes. Three kinds of view classes: *Components*, *Directives*, and *Pipes*.
+2. **Exports** - This is a subset of declarations. These are components that need to be exported to other components and can be used in those modules.
+3. **Imports** - This is the way how exported classed can be used in the current class.
+4. **Providers** - Services can be created by these in a certain module. These are also available to the global collection of services and therefore are available at all parts of the app.
+5. **Bootstrap** - This is the main application view called the root component and this hosts all the other views of the app. This property should only be set by the root module.
 
 Ex of a root module
 
