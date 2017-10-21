@@ -1,10 +1,11 @@
-#### Architecture Overview
+**Note** This is from Angular's documentation.
+## Architecture Overview
 HTML and Javascript or typescript (languages that compiles as js) are used by angular framework to build an application.
 Angular applications consists of HTML pages with angular specific markups. These are managed by componenet classes and by also services that contain application logic. Components and services are grouped into modules.
 
 The application is launched by bootsrapping the root module. 
 
-### Modules
+#### Modules
 Angular apps are modular in nature and are defined by ngModules. Every angular module needs atleast on module called the *root module* 
 NgModule is a class with *@NgModule* decorator
 
