@@ -113,10 +113,11 @@ Ex: src/app/hero-list.component.html
   <hero-detail *ng-If="selectHero" [hero]="selectHero"></hero-detail>
 ```
 
-Like discussed before, apart from HTML tags and elements, there are other elements like *\*ngFor*, *\*ngIf*, *{{hero.name}}*, *(click)*, *[hero]*, and *<hero-detail>*. These are discussed further in angular syntax.
+Like discussed before, apart from HTML tags and elements, there are other elements like **\*ngFor**, **\*ngIf**, **{{hero.name}}**, **(click)**, **[hero]**, and **\<hero-detail\>**. These are discussed further in angular syntax.
 
-*<hero-detail>* is the component and therefore is a custom element (HeroDetailComponent).
+**\<hero-detail\>** is the component and therefore is a custom element (HeroDetailComponent).
 HeroDetailComponent is a child of HeroListComponent.
 
 #### Metadata
 Metadata is used to describe how a class is processed.
+`class` here is just a js class. There is no relationship to a angular framework. It can be related to angularby using metadata in class. Metadata is supplied as a decorator. Here HeroListComponent becomes a component by defining `@component`.
