@@ -121,3 +121,44 @@ HeroDetailComponent is a child of HeroListComponent.
 #### Metadata
 Metadata is used to describe how a class is processed.
 `class` here is just a js class. There is no relationship to a angular framework. It can be related to angularby using metadata in class. Metadata is supplied as a decorator. Here HeroListComponent becomes a component by defining `@component`.
+
+```
+@component({
+  selector: 'hero-list',
+  templateUrl: './hero-list.component.html',
+  providers: [ HeroService ]
+})
+
+export class HeroListComponent implements OnInit {
+  /* .... */
+}
+```
+Here `@component` decorator. This will be responsible for Angular to know if it's a component or not. This decorator will require a configuration to make sure that angular knows that it is a component. Some of the component configuration options are:
+`selector:` CSS selector that is used to insert an instance of hero-list component that needs to be inserted into hero-list tag found in the parnet html.
+`\<hero-list\>\</hero-list\>:` When angular sees this it inserts hero-list component into the parent html.
+`templateUrl:` Address to the component html.
+`providers:` This is an array where dependency injection providers for services that are component are required. This is the only way an angular components to constructor requires.
+
+The template, metadata, and component together forms the view.
+
+Some of the other decorators that are used are `@Injectable`, `@Input`, and `@Output`.
+
+#### Data Binding
+When data changes, without a framework, data needs to be pushed into html. All the user responses and requests without a framework would be tedious to handle. In angular data binding is an important aspect and this updates the html and vice versa.
+
+Ex:
+```
+<li>{{hero.name}}</li>
+<hero-details [hero]="selectedHero"></hero-details>
+<li (click)="selectHero(hero)"></li>
+```
+
+Here, `{{hero.name}}` *interpolation* is used here to display name in the li element.
+`[hero]` *property binding* is used to pass the value of `selectedHero` from the parent `HeroListComponent` to the `hero` property of the child `HeroDetailComponent`.
+`(click)` *event binding* calls the components `selectHero` method when user clicks on the hero's name.
+
+`Two Way Data Binding` is an important aspect that combines the property binding and event binding in a single notation using `ngModel` directive. 
+Ex:
+```
+<input [(ngModel)]="hero.name">
+```
