@@ -162,3 +162,164 @@ Ex:
 ```
 <input [(ngModel)]="hero.name">
 ```
+Two way binding work flow is as follows: a data property value flows to the input box from the component as with the property binding. Any changes in the input box flows back to the component. This resets the property value as with event binding.
+
+All Data binding are processed once per javascript event cycle. This happens from the root of the application to every child components.
+
+Data binding plays an important role in the communication between templates and it's components.
+They also play an important role in communication between parent and child components.
+
+#### Directives
+Angular templates are dynamic. Angular renders them after transforming the DOM according to the instructions given by the directives.
+
+A directive is a class that uses `@Directive` decorator. A component is a directive with template. A `@Component` decorator is a `@Directive` decorator with template-oriented features. Even though componets are technically directives with templates and therefore architecurally different and an important component of Angular architecture.
+
+2 other types of directives called `Structural` and `Attribute` directives exits.
+These most commonly appear in the element tag as attributes. These can appear as just names or as a target of an assignment or a binding.
+
+**Structural** directives can be used to alter the DOM by adding, removing, or replacing DOM elements.
+Ex:
+```
+<li *ngFor="let hero of heros"></li>
+<app-hero-detail *ngIf="selectedHero"></app-hero-detail>
+```
+
+`*ngFor` is used to ad a `li` element for every `hero` in `heros` list
+`*ngIf` includes `app-hero-detail` component only if `selectedHero` exists.
+
+**Attribute** directives are used to alter the appearance or behaviour of an existing element. They look like regular html attributes.
+
+`ngModel` directive which is used for two way binding is an attribute directive. This directive modifies the behavior of an existing element like `input` by displaying and modifying the value according to user response or changes in events.
+
+```
+<input [(ngModel)]="hero.name">
+```
+
+Some are other Structural directives are `ngSwithch`. And Attribute directives like `ngStyle` and `ngClass`.
+We can also write custom directives. 
+
+#### Services
+A service can be a value, funciton, or even a feature that an application needs.
+A service is a class that is narrow and well defined purpose that does a specific activity only.
+
+Some of the examples of service are:
+1. Logging Service
+2. Data Service
+3. Message Bus
+4. Tax Collector
+5. Application Configuration
+
+In Angular there's no specific definition or a base class that is defined in Angular. It's just a js class. There's no need to register a service. 
+Services are extensively used by Components.
+Ex: Service that can be used to log to browser console.
+
+```
+src/app/logger.service.ts(class)
+
+export class Logger {
+  log(msg: any) { console.log(msg) }
+  error(msg: any) { console.error(msg) }
+  warn(msg: any) { console.warn(msg) }
+}
+```
+
+In the following example we are using Promise to get data from backend. This service uses `Logger` service and `BackendServie` to handle server communitcation and error logging.
+
+```
+src/app/hero.service.ts(class)
+
+export class HeroService {
+  private heroes: Hero[] = [];
+
+  constructor(
+    private backend: BackendService,
+    private logger: : Logger
+  ) {}
+
+  getHeros() {
+    this.backend.getAll(Hero).then( (heroes: Hero[]) => {
+      this.logger.log(`Fetched ${heroes.length} heroes.`);
+      this.heroes.push(...heroes);
+   });
+  }
+}
+```
+
+Components should be simple and easily testable. Some of the tasks like making server calls, validating user input, or loging to console should not be done in components but in services.
+
+Components main job will only be to enable better user experience. It acts as a mediator between view(template) and application logic (Model in mvc or such architectures). A good component should contain properties and methods that are needed only for data binding. Everything else should be done in services (any nontrivial / significant work). These can be done in components as well but then a component becomes more complicated.
+
+#### Dependency Injection
+This is the technique that is used to supply new instance of a class to angular components or services etc. Components need services and these services can be injected using DI technique.
+Ex.
+```
+src/app/hero-list.component.ts(constructor)
+
+constructor( private servie: HeroService) {}
+```
+When angular creates a component it first asks injector for services that the component requires.
+
+Injector maintains a container that contians service instances that was created previously. When angular asks for a service, if a service instance is not in the container yet it'll try to create on and adds to the container and returns to the component. When all the requested services are returned by the injector, a component's constructor will be called with those services as arguments. This whole process is called dependency injection.
+
+When a injector do not have an instance of requested service, it'll create a new instance. How it creates is explained next.
+When a service is created it's provider will be registered with the injector.
+A *Provider* is something that creates or returns a service. A provider can be registed in a module or a component.
+If a provider is registered at the root module, then the same instance is available everywhere in the app.
+
+Ex:
+```
+src/app/app.module.ts(module.providers)
+
+providers: [
+  BackendService,
+  HeroService,
+  Logger
+]
+```
+
+Providers can be registered at component levels as well using `provider` property of `@component` metadata.
+Ex:
+```
+src/app/hero-list.component.ts(component providers)
+
+@component({
+  selector: 'app-hero-list',
+  template:'',
+  providers: [HeroService]
+})
+```
+When a provider is registered at component level, a new instance of the service is created with every new instance of the component.
+
+The above details are the main foundations of an angular application. Some of the other important companants in angular are as follows.
+
+#### Animations
+Angular's animation library can be used to animate a component and without using a lot of CSS animation techniques.
+
+#### Change Detection
+This is another feature where angular determines if a component property value is changed, when to update the screen, and how it uses zones to intercept asynchronous activity and modify the application based on the changes that happens as a result of such activity.
+
+#### Events
+Components and services can be used to raise events by publishing and subscribing to events.
+
+#### Forms
+Complex form data entry and HTML based validation and data checking
+
+#### HTTP
+Server data can be accessed, saved, and also can invoke server side actions with HTTP client.
+
+#### Life Cycle Hooks
+Some of the life cycle acitvities like `init`, 'destroy` etc can detected by monitoring the life time of a component. It'll monitor form a components creation to it's destruction by implementing lifecycle hook interfaces.
+
+#### Pipe
+Pipes (|) can be used in templated ot transform the vales to be displayed.
+Ex:
+```
+price | currency: 'USD': true
+```
+This will display `$3434.33`.
+
+#### Router
+Navigate through the pages of a client application but never leave the browser. That is browser will not be re-loaded but data will be.
+
+#### Testing
+Angular testing platform can be used to run unit tests.
